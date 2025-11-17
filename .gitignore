@@ -3,15 +3,16 @@
 
 
 Thumbs.db
-ehthumbs.db
 Desktop.ini
-AppData/
 *.lnk
-
-
-*.log
 *.tmp
 *.bak
+*.log
+~$*
+*.sync
+*.lnk
+AppData/
+OneDrive/
 
 
 node_modules/
@@ -19,4 +20,4 @@ dist/
 
 
 *.env
-*.DS_Store
+
