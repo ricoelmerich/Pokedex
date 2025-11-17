@@ -1,6 +1,6 @@
 function pokemonCardTemplate() {
     return `<div>
-    <div id="card-header"></div>
+    <div id="card-header">${nameRef}</div>
     <img>
     <div id="card-footer"></div>
     </div>`
