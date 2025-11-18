@@ -1,4 +1,4 @@
-let Base_URL = "https://pokeapi.co/api/v2/pokemon/"
+let Base_URL = "https://pokeapi.co/api/v2/pokemon/";
 
 function init() {
     
@@ -14,10 +14,11 @@ async function loadData(path="") {
     console.log(responseAsJSON);
     let name = responseAsJSON.forms[0].name
     let nameRef = document.getElementById('main');
-    nameRef.innerHTML = name;
+    let pic = responseAsJSON.sprites.front_default;
     
-    pokemonCardTemplate(nameRef);
+    nameRef.innerHTML =pokemonCardTemplate(name, pic);
     
-
+    
+ 
     
 }

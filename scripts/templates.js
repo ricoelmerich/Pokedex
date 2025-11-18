@@ -1,7 +1,7 @@
-function pokemonCardTemplate() {
+function pokemonCardTemplate(name, pic) {
     return `<div>
-    <div id="card-header">${nameRef}</div>
-    <img>
+    <div id="card-header">${name}</div>
+    <img src="${pic}">
     <div id="card-footer"></div>
     </div>`
 }
