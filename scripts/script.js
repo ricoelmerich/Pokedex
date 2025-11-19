@@ -23,12 +23,28 @@ let icons = {
 
 let data = "";
 
-async function init() {
-  await loadData("1");
-  insertTypes();
+let path = 0;
+
+ function init() {
+  loadPokemonCards();
+
 }
 
-async function loadData(path = "") {
+async function loadPokemonCards() {
+    
+for (let pokemonindex = 0; pokemonindex <= 20; pokemonindex++) {
+    pokemonindex++;
+    path++;
+    path.toString();
+ await loadData(path, pokemonindex);
+ insertTypes(pokemonindex);
+}   
+  
+}
+
+
+
+async function loadData(path, pokemonindex) {
   let response = await fetch(Base_URL + path);
   let responseAsJSON = await response.json();
   data = responseAsJSON;
@@ -39,12 +55,12 @@ async function loadData(path = "") {
   let mainRef = document.getElementById("main");
   let pic = responseAsJSON.sprites.front_default;
 
-  mainRef.innerHTML = pokemonCardTemplate(name, pic);
+  mainRef.innerHTML += pokemonCardTemplate(name, pic, pokemonindex);
 }
 
-function insertTypes() {
+function insertTypes(pokemonindex) {
   let types = data.types;
-  let cardFooter = document.getElementById("card-footer");
+  let cardFooter = document.getElementById(`card-footer-${pokemonindex}`);
 
   for (let indexTypes = 0; indexTypes < types.length; indexTypes++) {
     let typeName = types[indexTypes].type.name;
