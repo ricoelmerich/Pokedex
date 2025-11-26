@@ -21,44 +21,50 @@ let icons = {
   water: "icons/water.svg",
 };
 
-let data = "";
-
-let path = 0;
-
  function init() {
   loadPokemonCards();
 
 }
 
-async function loadPokemonCards() {
-    
-for (let pokemonindex = 0; pokemonindex <= 20; pokemonindex++) {
-    pokemonindex++;
-    path++;
-    path.toString();
- await loadData(path, pokemonindex);
- insertTypes(pokemonindex);
-}   
+async function loadPokemonCards(limit = 20) {
+  try {
+    const listResp = await fetch(`${Base_URL}?limit=${limit}`);
+    if (!listResp.ok) {
+      console.error("Could not fetch pokemon list", listResp.status);
+      return;
+    }
+
+    let listJson;
+    try {
+      listJson = await listResp.json();
+    } catch (err) {
+      console.error("Failed to parse pokemon list JSON", err);
+      return;
+    }
+
+    for (let listIndex = 0; listIndex < listJson.results.length; listIndex++) {
+      const entry = listJson.results[listIndex];
+      await loadDataFromUrl(entry.url, listIndex);
+
+      
+    }
+  } catch (err) {
+    console.error("Unexpected error in loadPokemonCardsFromList", err);
+  }
+}
+
+async function loadDataFromUrl(url, pokemonindex) {
   
+    const response = await fetch(url);
+    
+    let data = await response.json();
+    let name = data.forms[0].name;
+    let pic = data.sprites.front_default;
+    document.getElementById("main").innerHTML += pokemonCardTemplate(name, pic, pokemonindex);
+    insertTypes(pokemonindex, data);
 }
 
-
-
-async function loadData(path, pokemonindex) {
-  let response = await fetch(Base_URL + path);
-  let responseAsJSON = await response.json();
-  data = responseAsJSON;
-
-  console.log(responseAsJSON);
-
-  let name = responseAsJSON.forms[0].name;
-  let mainRef = document.getElementById("main");
-  let pic = responseAsJSON.sprites.front_default;
-
-  mainRef.innerHTML += pokemonCardTemplate(name, pic, pokemonindex);
-}
-
-function insertTypes(pokemonindex) {
+function insertTypes(pokemonindex, data) {
   let types = data.types;
   let cardFooter = document.getElementById(`card-footer-${pokemonindex}`);
 
