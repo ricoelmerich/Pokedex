@@ -22,11 +22,11 @@ let icons = {
 };
 
  function init() {
-  loadPokemonCards();
+  loadPokemonlist();
 
 }
 
-async function loadPokemonCards(limit = 20) {
+async function loadPokemonlist(limit = 20) {
   try {
     const listResp = await fetch(`${Base_URL}?limit=${limit}`);
     if (!listResp.ok) {
@@ -46,7 +46,6 @@ async function loadPokemonCards(limit = 20) {
       const entry = listJson.results[listIndex];
       await loadDataFromUrl(entry.url, listIndex);
 
-      
     }
   } catch (err) {
     console.error("Unexpected error in loadPokemonCardsFromList", err);
@@ -76,4 +75,18 @@ function insertTypes(pokemonindex, data) {
     typeIcon.classList.add("type-icon");
     cardFooter.appendChild(typeIcon);
   }
+}
+
+function addCardOverlay(pokemonindex, pic) {
+
+  
+   let contentRef = document.getElementById("overlay");
+  contentRef.innerHTML = cardOverlay(pokemonindex, pic);
+  contentRef.classList.remove("display-none");
+  
+}
+
+function closeOverlay(){
+  let overlay = document.getElementById("overlay");
+  overlay.classList.add("display-none");
 }
