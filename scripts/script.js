@@ -1,5 +1,8 @@
 let Base_URL = "https://pokeapi.co/api/v2/pokemon/";
 
+
+let pokemonCache = [];
+
 let icons = {
   bug: "icons/bug.svg",
   dark: "icons/dark.svg",
@@ -53,37 +56,54 @@ async function loadPokemonlist(limit = 20) {
 }
 
 async function loadDataFromUrl(url, pokemonindex) {
+  const response = await fetch(url);
+  const data = await response.json();
+
   
-    const response = await fetch(url);
-    
-    let data = await response.json();
-    let name = data.forms[0].name;
-    let pic = data.sprites.front_default;
-    document.getElementById("main").innerHTML += pokemonCardTemplate(name, pic, pokemonindex);
-    insertTypes(pokemonindex, data);
+  pokemonCache[pokemonindex] = data;
+
+  const name = data.forms[0].name;
+  const pic = data.sprites.front_default;
+  document.getElementById("main").innerHTML += pokemonCardTemplate(name, pic, pokemonindex);
+
+  insertCardTypes(pokemonindex, data.types);
 }
 
-function insertTypes(pokemonindex, data) {
-  let types = data.types;
-  let cardFooter = document.getElementById(`card-footer-${pokemonindex}`);
+function insertCardTypes(pokemonindex, types) {
+  const cardFooter = document.getElementById(`card-footer-${pokemonindex}`);
+  if (!cardFooter) return;
 
-  for (let indexTypes = 0; indexTypes < types.length; indexTypes++) {
-    let typeName = types[indexTypes].type.name;
-    let typeIcon = document.createElement("img");
-
-    typeIcon.src = icons[typeName];
-    typeIcon.classList.add("type-icon");
-    cardFooter.appendChild(typeIcon);
+  for (let typeIndex = 0; typeIndex < types.length; typeIndex++) {
+    const typeName = types[typeIndex].type.name;
+    const img = document.createElement("img");
+    img.src = icons[typeName];
+    img.classList.add("type-icon");
+    cardFooter.appendChild(img);
   }
 }
 
-function addCardOverlay(pokemonindex, pic) {
+function insertOverlayTypes(pokemonindex, types) {
+  const overlayTypes = document.getElementById(`overlay-types-id-${pokemonindex}`);
+  if (!overlayTypes) return;
 
-  
-   let contentRef = document.getElementById("overlay");
-  contentRef.innerHTML = cardOverlay(pokemonindex, pic);
+  for (let typeIndex = 0; typeIndex < types.length; typeIndex++) {
+    const typeName = types[typeIndex].type.name;
+    const img = document.createElement("img");
+    img.src = icons[typeName];
+    img.classList.add("type-icon");
+    overlayTypes.appendChild(img.cloneNode(true));
+  }
+}
+
+function addCardOverlay(pokemonindex, pic, name) {
+  const contentRef = document.getElementById("overlay");
+  contentRef.innerHTML = cardOverlay(pokemonindex, pic, name);
   contentRef.classList.remove("display-none");
+
+
+  data = pokemonCache[pokemonindex];
   
+    insertOverlayTypes(pokemonindex, data.types);
 }
 
 function closeOverlay(){
