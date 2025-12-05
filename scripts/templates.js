@@ -7,16 +7,41 @@ function pokemonCardTemplate(name, pic, pokemonindex) {
 }
 
 function cardOverlay(pokemonindex, pic, name) {
-    return `<div>
+    return `
     <section id="overlay-header">${name}
-    <div onclick="closeOverlay()" class="closeOverlay">✖</div>
+    <div onclick="closeOverlay()" class="close-overlay">✖</div>
     </section>
     <img src="${pic}" class="overlay-img" >
     <div id="overlay-types-id-${pokemonindex}"></div>
-    <div id="overlay-footer"><nav></nav>
+    <div id="overlay-footer">
+    <nav id="overlay-tab-stats" class="overlay-tab-stats"></nav>
+    <nav id="overlay-tab-combat" class="overlay-tab-combat"></nav>
+    <nav id="overlay-tab-evochain" class="overlay-tab-evochain"></nav>
     <p></p>
     <p></p>
     <p></p>
-    </div>
     </div>`
+}
+
+function overlayStats() {
+    return `
+    <p>${height}</p>
+    <p>${weight}</p>
+   `
+}
+
+function overlayCombat() {
+    return `
+    <p>${health}</p>
+    <p>${attack}</p>
+    <p>${defense}</p>
+   `
+}
+
+function overlayEvoChain() {
+    return `
+    <img>
+    <img>
+    <img>
+   `
 }
