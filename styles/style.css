@@ -54,4 +54,10 @@ main{
     position: fixed;
 }
 
+.tab{
+    width: 20px;
+    height: 20px;
+    background-color: aqua;
+}
+
     

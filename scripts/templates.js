@@ -14,19 +14,19 @@ function cardOverlay(pokemonindex, pic, name) {
     <img src="${pic}" class="overlay-img" >
     <div id="overlay-types-id-${pokemonindex}"></div>
     <div id="overlay-footer">
-    <nav id="overlay-tab-stats" class="overlay-tab-stats"></nav>
-    <nav id="overlay-tab-combat" class="overlay-tab-combat"></nav>
-    <nav id="overlay-tab-evochain" class="overlay-tab-evochain"></nav>
+    <nav onclick="loadStats(${pokemonindex})" id="overlay-tab-stats" class="overlay-tab-stats tab"></nav>
+    <nav onload="" id="overlay-tab-combat" class="overlay-tab-combat tab"></nav>
+    <nav onload="" id="overlay-tab-evochain" class="overlay-tab-evochain tab"></nav>
     <p></p>
     <p></p>
     <p></p>
     </div>`
 }
 
-function overlayStats() {
+function overlayStats(pokemonindex, statsRespJSON) {
     return `
-    <p>${height}</p>
-    <p>${weight}</p>
+    <p>${statsRespJSON.height}</p>
+    <p>${statsRespJSON.weight}</p>
    `
 }
 

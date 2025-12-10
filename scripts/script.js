@@ -110,3 +110,40 @@ function closeOverlay(){
   let overlay = document.getElementById("overlay");
   overlay.classList.add("display-none");
 }
+
+async function loadStats(pokemonindex) {
+  try {
+    if (pokemonCache[pokemonindex] ) {
+   
+      renderStatsTab(pokemonindex, pokemonCache[pokemonindex]);
+    } else {
+     
+      const statsResp = await fetch(`${Base_URL}/${pokemonindex}`);
+      if (!statsResp.ok) {
+        console.error("Failed to fetch stats", statsResp.status);
+        return;
+      }
+      const statsRespJSON = await statsResp.json();
+      
+      pokemonCache[pokemonindex] = statsRespJSON;
+
+      renderStatsTab(pokemonindex, statsRespJSON);
+      
+    }
+  } catch (err) {
+    console.error("Error in loadStats:", err);
+  }
+}
+
+
+function renderStatsTab(pokemonindex, statsRespJSON) {
+  
+   let statsTabRef = document.getElementById("overlay-tab-stats");
+   statsTabRef.innerHTML = overlayStats(pokemonindex, statsRespJSON)
+   console.log(statsRespJSON);
+}
+
+
+
+
+
