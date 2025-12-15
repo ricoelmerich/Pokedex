@@ -115,7 +115,7 @@ async function loadStats(pokemonindex) {
   try {
     if (pokemonCache[pokemonindex] ) {
    
-      renderStatsTab(pokemonindex, pokemonCache[pokemonindex]);
+      renderStatsTab(pokemonCache[pokemonindex]);
     } else {
      
       const statsResp = await fetch(`${Base_URL}/${pokemonindex}`);
@@ -127,7 +127,7 @@ async function loadStats(pokemonindex) {
       
       pokemonCache[pokemonindex] = statsRespJSON;
 
-      renderStatsTab(pokemonindex, statsRespJSON);
+      renderStatsTab(statsRespJSON);
       
     }
   } catch (err) {
@@ -136,11 +136,45 @@ async function loadStats(pokemonindex) {
 }
 
 
-function renderStatsTab(pokemonindex, statsRespJSON) {
+function renderStatsTab(statsRespJSON) {
   
    let statsTabRef = document.getElementById("overlay-tab-stats");
-   statsTabRef.innerHTML = overlayStats(pokemonindex, statsRespJSON)
-   console.log(statsRespJSON);
+   statsTabRef.innerHTML = overlayStats(statsRespJSON)
+   
+}
+
+async function loadCombatStats(pokemonindex) {
+  try {
+    if (pokemonCache[pokemonindex].stats ) {
+   
+      renderCombatTab(pokemonCache[pokemonindex].stats);
+    } else {
+     
+      const combatStatsResp = await fetch(`${Base_URL}/${pokemonindex}`);
+      if (!combatStatsResp.ok) {
+        console.error("Failed to fetch stats", combatStatsResp.status);
+        return;
+      }
+      const combatStatsRespJSON = await combatStatsResp.json();
+      const combatStats = combatStatsRespJSON.stats;
+      
+      pokemonCache[pokemonindex].stats = combatStats;
+      
+      
+
+      renderCombatTab(combatStats);
+      
+    }
+  } catch (err) {
+    console.error("Error in loadCombat:", err);
+  }
+}
+
+function renderCombatTab(combatStats) {
+  console.log(combatStats);
+   let combatTabRef = document.getElementById("overlay-tab-combat");
+   combatTabRef.innerHTML = overlayCombat(combatStats);
+   
 }
 
 
