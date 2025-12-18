@@ -45,7 +45,8 @@ async function loadPokemonlist(limit = 20) {
 
     for (let listIndex = 0; listIndex < listJson.results.length; listIndex++) {
       const entry = listJson.results[listIndex];
-      await loadDataFromUrl(entry.url, listIndex);
+      let pokemonindex = listIndex+1;
+      await loadDataFromUrl(entry.url, pokemonindex);
     }
   } catch (err) {
     console.error("Unexpected error in loadPokemonCardsFromList", err);
@@ -168,14 +169,30 @@ function renderCombatTab(combatStats) {
 
 async function loadEvoChain(pokemonindex) {
   try {
+
+
+    const speciesResp = await fetch(`${Base_URL}pokemon-species/${pokemonindex}`);
+    if (!speciesResp.ok) {
+      console.error('Failed to fetch species', speciesResp.status);
+      return;
+    }
+    const speciesJson = await speciesResp.json();
+
+        const evoChainUrl = speciesJson.evolution_chain.url;
+    if (!evoChainUrl) {
+      console.error('No evolution_chain found for', pokemonindex);
+      return;
+    }
+
+    
     if (pokemonCache[pokemonindex].chain) {
       const chain = pokemonCache[pokemonindex].chain;
       const levels = countEvoForms(chain);
       evoChainTab(chain);
-    } else {
-      const evoChainResp = await fetch(
-        `${Base_URL}evolution-chain/${pokemonindex}`
-      );
+      return;
+    } 
+
+      const evoChainResp = await fetch(evoChainUrl);
       if (!evoChainResp.ok) {
         console.error("Failed to fetch evoChain", evoChainResp.status);
         return;
@@ -183,18 +200,17 @@ async function loadEvoChain(pokemonindex) {
       const evoChainRespJSON = await evoChainResp.json();
       const chain = evoChainRespJSON.chain;
 
-      pokemonCache[pokemonindex].chain = chain
-
-      
+      pokemonCache[pokemonindex].chain = chain;
 
       const levels = countEvoForms(chain);
 
       evoChainTab(chain);
-    }
+    
   } catch (err) {
     console.error("Error in loadStats:", err);
   }
 }
+
 
 function countEvoForms(chain) {
 
