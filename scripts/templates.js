@@ -38,8 +38,9 @@ function overlayCombat(combatStats) {
    `
 }
 
-function overlayEvoChain() {
+function overlayEvoChain(chain) {
     return `
+    TEST
     <img>
     <img>
     <img>
