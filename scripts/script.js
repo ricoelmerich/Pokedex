@@ -204,7 +204,8 @@ async function loadEvoChain(pokemonindex) {
 
       const levels = countEvoForms(chain);
 
-      evoChainTab(chain);
+
+      renderEvoChain(levels);
     
   } catch (err) {
     console.error("Error in loadStats:", err);
@@ -251,8 +252,26 @@ console.log(levels);
   return levels;
 }
 
-function evoChainTab(chain) {
+
+
+async function renderEvoChain(levels) {
   
-  let evoChainTabRef = document.getElementById("overlay-tab-evochain");
-  evoChainTabRef.innerHTML = overlayEvoChain(chain);
+
+  for (let levelIndex = 0; levelIndex < levels.length; levelIndex++) {
+    let name = levels[levelIndex][0].name;
+
+
+     const response = await fetch(`${Base_URL}pokemon/${name}`);
+     const responseJSON = await response.json();
+
+  pokemonCache[levelIndex].name = responseJSON;
+
+  
+  const imgSrc = responseJSON.sprites.front_default;
+  document.getElementById("overlay-tab-evochain").innerHTML += overlayEvoChain(
+    name,
+    imgSrc
+  );
+
+  }
 }

@@ -38,11 +38,10 @@ function overlayCombat(combatStats) {
    `
 }
 
-function overlayEvoChain(chain) {
+function overlayEvoChain(name,imgSrc) {
     return `
     TEST
-    <img>
-    <img>
-    <img>
+    <img src="${imgSrc}">
+   
    `
 }
