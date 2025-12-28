@@ -213,6 +213,7 @@ async function loadEvoChain(pokemonindex) {
 }
 
 
+
 function countEvoForms(chain) {
 
   if (!chain) return [];
@@ -263,8 +264,8 @@ async function renderEvoChain(levels) {
 
      const response = await fetch(`${Base_URL}pokemon/${name}`);
      const responseJSON = await response.json();
-
-  pokemonCache[levelIndex].name = responseJSON;
+     let levelCache = [];
+  levelCache[levelIndex] = responseJSON;
 
   
   const imgSrc = responseJSON.sprites.front_default;
