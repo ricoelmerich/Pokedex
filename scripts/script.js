@@ -135,7 +135,7 @@ async function loadStats(pokemonindex) {
 }
 
 function renderStatsTab(statsRespJSON) {
-  let statsTabRef = document.getElementById("overlay-tab-stats");
+  let statsTabRef = document.getElementById("info-space");
   statsTabRef.innerHTML = overlayStats(statsRespJSON);
 }
 
@@ -163,7 +163,7 @@ async function loadCombatStats(pokemonindex) {
 
 function renderCombatTab(combatStats) {
   console.log(combatStats);
-  let combatTabRef = document.getElementById("overlay-tab-combat");
+  let combatTabRef = document.getElementById("info-space");
   combatTabRef.innerHTML = overlayCombat(combatStats);
 }
 
@@ -188,7 +188,7 @@ async function loadEvoChain(pokemonindex) {
     if (pokemonCache[pokemonindex].chain) {
       const chain = pokemonCache[pokemonindex].chain;
       const levels = countEvoForms(chain);
-      evoChainTab(chain);
+      renderEvoChain(chain);
       return;
     } 
 
@@ -208,7 +208,7 @@ async function loadEvoChain(pokemonindex) {
       renderEvoChain(levels);
     
   } catch (err) {
-    console.error("Error in loadStats:", err);
+    console.error("Error in loadEvoChain:", err);
   }
 }
 
@@ -269,7 +269,7 @@ async function renderEvoChain(levels) {
 
   
   const imgSrc = responseJSON.sprites.front_default;
-  document.getElementById("overlay-tab-evochain").innerHTML += overlayEvoChain(
+  document.getElementById("info-space").innerHTML += overlayEvoChain(
     name,
     imgSrc
   );
