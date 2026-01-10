@@ -1,6 +1,7 @@
 let Base_URL = "https://pokeapi.co/api/v2/";
 
 let pokemonCache = [];
+let levelCache = [];
 
 let icons = {
   bug: "icons/bug.svg",
@@ -189,7 +190,6 @@ async function loadEvoChain(pokemonindex) {
       const chain = pokemonCache[pokemonindex].chain;
       const levels = countEvoForms(chain);
       renderEvoChain(chain);
-      return;
     } 
 
       const evoChainResp = await fetch(evoChainUrl);
@@ -256,23 +256,23 @@ console.log(levels);
 
 
 async function renderEvoChain(levels) {
-  
+  const infoSpace = document.getElementById("info-space");
+  infoSpace.innerHTML = "";
 
   for (let levelIndex = 0; levelIndex < levels.length; levelIndex++) {
-    let name = levels[levelIndex][0].name;
+    const name = levels[levelIndex][0].name;
 
+    
+    if (!levelCache[name]) {
+      const response = await fetch(`${Base_URL}pokemon/${name}`);
+      const responseJSON = await response.json();
+      levelCache[name] = responseJSON; 
+    }
+    
+    const data = levelCache[name];
+    const imgSrc = data.sprites.front_default;
 
-     const response = await fetch(`${Base_URL}pokemon/${name}`);
-     const responseJSON = await response.json();
-     let levelCache = [];
-  levelCache[levelIndex] = responseJSON;
-
-  
-  const imgSrc = responseJSON.sprites.front_default;
-  document.getElementById("info-space").innerHTML += overlayEvoChain(
-    name,
-    imgSrc
-  );
-
+    infoSpace.innerHTML += overlayEvoChain(name, imgSrc);
   }
 }
+
