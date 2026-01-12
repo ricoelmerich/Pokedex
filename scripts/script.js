@@ -262,9 +262,14 @@ async function renderEvoChain(levels) {
   for (let levelIndex = 0; levelIndex < levels.length; levelIndex++) {
     const name = levels[levelIndex][0].name;
 
-    
+    try {
     if (!levelCache[name]) {
       const response = await fetch(`${Base_URL}pokemon/${name}`);
+
+      if (!response.ok) {
+         console.error(`Failed to load data for ${name}. HTTP status: ${response.status}`);
+      }
+
       const responseJSON = await response.json();
       levelCache[name] = responseJSON; 
     }
@@ -274,5 +279,9 @@ async function renderEvoChain(levels) {
 
     infoSpace.innerHTML += overlayEvoChain(name, imgSrc);
   }
+  catch (err) {
+     console.error(`error while processing ${name}:`, err);
+  }
+}
 }
 
