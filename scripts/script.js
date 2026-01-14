@@ -26,9 +26,23 @@ let icons = {
 
 function init() {
   loadPokemonlist();
+    
+
 }
 
+function showSpinner() {
+  document.getElementById("loading-spinner").classList.remove("hidden");
+}
+
+function hideSpinner() {
+  document.getElementById("loading-spinner").classList.add("hidden");
+}
+
+
 async function loadPokemonlist(limit = 20) {
+
+  showSpinner();
+
   try {
     const listResp = await fetch(`${Base_URL}pokemon/?limit=${limit}`);
     if (!listResp.ok) {
@@ -52,6 +66,7 @@ async function loadPokemonlist(limit = 20) {
   } catch (err) {
     console.error("Unexpected error in loadPokemonCardsFromList", err);
   }
+  hideSpinner();
 }
 
 async function loadDataFromUrl(url, pokemonindex) {
@@ -69,6 +84,7 @@ async function loadDataFromUrl(url, pokemonindex) {
   );
 
   insertCardTypes(pokemonindex, data.types);
+  
 }
 
 function insertCardTypes(pokemonindex, types) {
