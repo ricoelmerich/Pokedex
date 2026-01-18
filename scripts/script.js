@@ -77,7 +77,7 @@ async function loadDataFromUrl(url, pokemonindex) {
 
   const name = data.forms[0].name;
   const pic = data.sprites.front_default;
-  document.getElementById("main").innerHTML += pokemonCardTemplate(
+  document.getElementById("content").innerHTML += pokemonCardTemplate(
     name,
     pic,
     pokemonindex

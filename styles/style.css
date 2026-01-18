@@ -2,7 +2,7 @@ body{
     background-color: rgba(0, 0, 0, 0.3);
 }
 
-main{
+.content{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
