@@ -2,6 +2,9 @@ let Base_URL = "https://pokeapi.co/api/v2/";
 
 let pokemonCache = [];
 let levelCache = [];
+let loadedCount = 0;
+const loadAmount = 20;
+
 
 let icons = {
   bug: "icons/bug.svg",
@@ -39,12 +42,12 @@ function hideSpinner() {
 }
 
 
-async function loadPokemonlist(limit = 20) {
+async function loadPokemonlist(limit = loadAmount, offset = 0) {
 
   showSpinner();
 
   try {
-    const listResp = await fetch(`${Base_URL}pokemon/?limit=${limit}`);
+    const listResp = await fetch(`${Base_URL}pokemon/?limit=${limit}&offset=${offset}`);
     if (!listResp.ok) {
       console.error("Could not fetch pokemon list", listResp.status);
       return;
@@ -68,6 +71,12 @@ async function loadPokemonlist(limit = 20) {
   }
   hideSpinner();
 }
+
+function loadMorePokemon() {
+  loadedCount += loadAmount;
+  loadPokemonlist(loadAmount, loadedCount);
+}
+
 
 async function loadDataFromUrl(url, pokemonindex) {
   const response = await fetch(url);
