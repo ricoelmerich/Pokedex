@@ -43,9 +43,7 @@ function hideSpinner() {
 
 
 async function loadPokemonlist(limit = loadAmount, offset = 0) {
-
   showSpinner();
-
   try {
     const listResp = await fetch(`${Base_URL}pokemon/?limit=${limit}&offset=${offset}`);
     if (!listResp.ok) {
@@ -53,52 +51,55 @@ async function loadPokemonlist(limit = loadAmount, offset = 0) {
       return;
     }
 
-    let listJson;
-    try {
-      listJson = await listResp.json();
-    } catch (err) {
-      console.error("Failed to parse pokemon list JSON", err);
-      return;
-    }
+    let listJson = await listResp.json();
 
     for (let listIndex = 0; listIndex < listJson.results.length; listIndex++) {
       const entry = listJson.results[listIndex];
-      let pokemonindex = listIndex+1;
-      await loadDataFromUrl(entry.url, pokemonindex);
+
+     
+      await loadDataFromUrl(entry.url);
     }
+
   } catch (err) {
-    console.error("Unexpected error in loadPokemonCardsFromList", err);
+    console.error("Unexpected error in loadPokemonlist", err);
   }
+
   hideSpinner();
 }
 
-function loadMorePokemon() {
-  loadedCount += loadAmount;
-  loadPokemonlist(loadAmount, loadedCount);
-}
 
 
-async function loadDataFromUrl(url, pokemonindex) {
+
+
+async function loadDataFromUrl(url) {
   const response = await fetch(url);
   const data = await response.json();
 
-  pokemonCache[pokemonindex] = data;
+ 
+  const pokemonId = data.id;
+
+  pokemonCache[pokemonId] = data;
 
   const name = data.forms[0].name;
   const pic = data.sprites.front_default;
+
+  
   document.getElementById("content").innerHTML += pokemonCardTemplate(
     name,
     pic,
-    pokemonindex
+    pokemonId
   );
 
-  insertCardTypes(pokemonindex, data.types);
   
+  insertCardTypes(pokemonId, data.types);
 }
 
-function insertCardTypes(pokemonindex, types) {
-  const cardFooter = document.getElementById(`card-footer-${pokemonindex}`);
+
+function insertCardTypes(pokemonId, types) {
+  const cardFooter = document.getElementById(`card-footer-${pokemonId}`);
   if (!cardFooter) return;
+
+  cardFooter.innerHTML = ""; 
 
   for (let typeIndex = 0; typeIndex < types.length; typeIndex++) {
     const typeName = types[typeIndex].type.name;
@@ -109,11 +110,12 @@ function insertCardTypes(pokemonindex, types) {
   }
 }
 
-function insertOverlayTypes(pokemonindex, types) {
-  const overlayTypes = document.getElementById(
-    `overlay-types-id-${pokemonindex}`
-  );
+
+function insertOverlayTypes(pokemonId, types) {
+  const overlayTypes = document.getElementById(`overlay-types-id-${pokemonId}`);
   if (!overlayTypes) return;
+
+  overlayTypes.innerHTML = ""; 
 
   for (let typeIndex = 0; typeIndex < types.length; typeIndex++) {
     const typeName = types[typeIndex].type.name;
@@ -124,34 +126,36 @@ function insertOverlayTypes(pokemonindex, types) {
   }
 }
 
-function addCardOverlay(pokemonindex, pic, name) {
+
+function addCardOverlay(pokemonId, pic, name) {
   const contentRef = document.getElementById("overlay");
-  contentRef.innerHTML = cardOverlay(pokemonindex, pic, name);
+  contentRef.innerHTML = cardOverlay(pokemonId, pic, name);
   contentRef.classList.remove("display-none");
 
-  data = pokemonCache[pokemonindex];
+  const data = pokemonCache[pokemonId];
 
-  insertOverlayTypes(pokemonindex, data.types);
+  insertOverlayTypes(pokemonId, data.types);
 }
+
 
 function closeOverlay() {
   let overlay = document.getElementById("overlay");
   overlay.classList.add("display-none");
 }
 
-async function loadStats(pokemonindex) {
+async function loadStats(pokemonId) {
   try {
-    if (pokemonCache[pokemonindex]) {
-      renderStatsTab(pokemonCache[pokemonindex]);
+    if (pokemonCache[pokemonId]) {
+      renderStatsTab(pokemonCache[pokemonId]);
     } else {
-      const statsResp = await fetch(`${Base_URL}pokemon/${pokemonindex}`);
+      const statsResp = await fetch(`${Base_URL}pokemon/${pokemonId}`);
       if (!statsResp.ok) {
         console.error("Failed to fetch stats", statsResp.status);
         return;
       }
       const statsRespJSON = await statsResp.json();
 
-      pokemonCache[pokemonindex] = statsRespJSON;
+      pokemonCache[pokemonId] = statsRespJSON;
 
       renderStatsTab(statsRespJSON);
     }
@@ -165,12 +169,12 @@ function renderStatsTab(statsRespJSON) {
   statsTabRef.innerHTML = overlayStats(statsRespJSON);
 }
 
-async function loadCombatStats(pokemonindex) {
+async function loadCombatStats(pokemonId) {
   try {
-    if (pokemonCache[pokemonindex].stats) {
-      renderCombatTab(pokemonCache[pokemonindex].stats);
+    if (pokemonCache[pokemonId].stats) {
+      renderCombatTab(pokemonCache[pokemonId].stats);
     } else {
-      const combatStatsResp = await fetch(`${Base_URL}pokemon/${pokemonindex}`);
+      const combatStatsResp = await fetch(`${Base_URL}pokemon/${pokemonId}`);
       if (!combatStatsResp.ok) {
         console.error("Failed to fetch stats", combatStatsResp.status);
         return;
@@ -178,7 +182,7 @@ async function loadCombatStats(pokemonindex) {
       const combatStatsRespJSON = await combatStatsResp.json();
       const combatStats = combatStatsRespJSON.stats;
 
-      pokemonCache[pokemonindex].stats = combatStats;
+      pokemonCache[pokemonId].stats = combatStats;
 
       renderCombatTab(combatStats);
     }
@@ -193,11 +197,11 @@ function renderCombatTab(combatStats) {
   combatTabRef.innerHTML = overlayCombat(combatStats);
 }
 
-async function loadEvoChain(pokemonindex) {
+async function loadEvoChain(pokemonId) {
   try {
 
 
-    const speciesResp = await fetch(`${Base_URL}pokemon-species/${pokemonindex}`);
+    const speciesResp = await fetch(`${Base_URL}pokemon-species/${pokemonId}`);
     if (!speciesResp.ok) {
       console.error('Failed to fetch species', speciesResp.status);
       return;
@@ -206,13 +210,13 @@ async function loadEvoChain(pokemonindex) {
 
         const evoChainUrl = speciesJson.evolution_chain.url;
     if (!evoChainUrl) {
-      console.error('No evolution_chain found for', pokemonindex);
+      console.error('No evolution_chain found for', pokemonId);
       return;
     }
 
     
-    if (pokemonCache[pokemonindex].chain) {
-      const chain = pokemonCache[pokemonindex].chain;
+    if (pokemonCache[pokemonId].chain) {
+      const chain = pokemonCache[pokemonId].chain;
       const levels = countEvoForms(chain);
       renderEvoChain(chain);
     } 
@@ -225,7 +229,7 @@ async function loadEvoChain(pokemonindex) {
       const evoChainRespJSON = await evoChainResp.json();
       const chain = evoChainRespJSON.chain;
 
-      pokemonCache[pokemonindex].chain = chain;
+      pokemonCache[pokemonId].chain = chain;
 
       const levels = countEvoForms(chain);
 
@@ -308,5 +312,10 @@ async function renderEvoChain(levels) {
      console.error(`error while processing ${name}:`, err);
   }
 }
+}
+
+function loadMorePokemon() {
+  loadedCount += loadAmount;
+  loadPokemonlist(loadAmount, loadedCount);
 }
 
