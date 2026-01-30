@@ -10,7 +10,12 @@
     <title>Pokedex</title>
 </head>
 <body  onload="init()">
-    <header></header>
+    <header>
+        <label for="site-search">find Pokemon:</label>
+<input type="search" id="site-search" name="q" />
+
+<button class="search-button">Search</button>
+    </header>
     <main id="main" class="main">
         <div id="loading-spinner" class="spinner hidden"> <img src="icons/simple_pokeball.gif" alt="Loading..."> </div>
          <div id="overlay" class="overlay display-none"></div>
