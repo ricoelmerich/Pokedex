@@ -319,3 +319,29 @@ function loadMorePokemon() {
   loadPokemonlist(loadAmount, loadedCount);
 }
 
+function filterPokemon() {
+    let search = document.getElementById("search").value.toLowerCase();
+
+    
+    document.getElementById("content").innerHTML = "";
+
+    
+    for (let i = 0; i < pokemonCache.length; i++) {
+        let pokemon = pokemonCache[id];
+        if (!pokemon) continue;
+
+        let name = pokemon.forms[0].name.toLowerCase();
+
+        if (name.includes(search)) {
+            const pic = pokemon.sprites.front_default;
+
+            document.getElementById("content").innerHTML += pokemonCardTemplate(
+                name,
+                pic,
+                id
+            );
+
+            insertCardTypes(id, pokemon.types);
+        }
+    }
+}
