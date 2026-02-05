@@ -326,8 +326,8 @@ function filterPokemon() {
     document.getElementById("content").innerHTML = "";
 
     
-    for (let i = 0; i < pokemonCache.length; i++) {
-        let pokemon = pokemonCache[id];
+    for (let searchIndex = 0; searchIndex < pokemonCache.length; searchIndex++) {
+        let pokemon = pokemonCache[searchIndex];
         if (!pokemon) continue;
 
         let name = pokemon.forms[0].name.toLowerCase();
@@ -338,10 +338,10 @@ function filterPokemon() {
             document.getElementById("content").innerHTML += pokemonCardTemplate(
                 name,
                 pic,
-                id
+                searchIndex
             );
 
-            insertCardTypes(id, pokemon.types);
+            insertCardTypes(searchIndex, pokemon.types);
         }
     }
 }
