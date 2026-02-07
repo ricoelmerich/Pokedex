@@ -1,5 +1,5 @@
 function pokemonCardTemplate(name, pic, pokemonId) {
-  return `<div class="card" onclick="addCardOverlay(${pokemonId}, '${pic}', '${name}')">
+  return `<div class="card" id="card-${pokemonId}" onclick="addCardOverlay(${pokemonId}, '${pic}', '${name}')">
     <div id="card-header">${name}</div>
     <img src="${pic}" class="pokemon-img">
     <div id="card-footer-${pokemonId}"></div>

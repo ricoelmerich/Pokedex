@@ -92,6 +92,8 @@ async function loadDataFromUrl(url) {
 
   
   insertCardTypes(pokemonId, data.types);
+  setCardTypeClass(pokemonId, data.types);
+
 }
 
 
@@ -109,6 +111,16 @@ function insertCardTypes(pokemonId, types) {
     cardFooter.appendChild(img);
   }
 }
+
+function setCardTypeClass(pokemonId, types) {
+    let firstType = types[0].type.name; 
+    let card = document.getElementById(`card-${pokemonId}`);
+
+    if (card) {
+        card.classList.add(firstType);
+    }
+}
+
 
 
 function insertOverlayTypes(pokemonId, types) {
