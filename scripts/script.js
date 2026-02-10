@@ -92,7 +92,7 @@ async function loadDataFromUrl(url) {
 
   
   insertCardTypes(pokemonId, data.types);
-  setCardTypeClass(pokemonId, data.types);
+  setBackGroundColor(pokemonId, data.types);
 
 }
 
@@ -110,18 +110,40 @@ function insertCardTypes(pokemonId, types) {
     img.classList.add("type-icon");
     cardFooter.appendChild(img);
   }
-  setCardTypeClass(pokemonId, types);
+  setBackGroundColor(pokemonId, types, false);
 }
 
-function setCardTypeClass(pokemonId, types) {
-    let firstType = types[0].type.name; 
-    let card = document.getElementById(`card-${pokemonId}`);
+function setBackGroundColor(pokemonId, types, isOverlay) {
+    let firstType = types[0].type.name;
 
-    if (card) {
-        card.classList.add(firstType);
+    if (isOverlay) {
+        let overlay = document.getElementById("overlay");
+        if (overlay) {
+            overlay.classList.add(firstType);
+        }
+    } else {
+        let card = document.getElementById(`card-${pokemonId}`);
+        if (card) {
+            card.classList.add(firstType);
+        }
     }
 }
 
+
+
+
+
+
+function addCardOverlay(pokemonId, pic, name) {
+  const contentRef = document.getElementById("overlay");
+  contentRef.innerHTML = cardOverlay(pokemonId, pic, name);
+  contentRef.classList.remove("display-none");
+
+  const data = pokemonCache[pokemonId];
+
+  insertOverlayTypes(pokemonId, data.types);
+  setBackGroundColor(pokemonId, data.types, true);
+}
 
 
 function insertOverlayTypes(pokemonId, types) {
@@ -137,17 +159,6 @@ function insertOverlayTypes(pokemonId, types) {
     img.classList.add("type-icon");
     overlayTypes.appendChild(img.cloneNode(true));
   }
-}
-
-
-function addCardOverlay(pokemonId, pic, name) {
-  const contentRef = document.getElementById("overlay");
-  contentRef.innerHTML = cardOverlay(pokemonId, pic, name);
-  contentRef.classList.remove("display-none");
-
-  const data = pokemonCache[pokemonId];
-
-  insertOverlayTypes(pokemonId, data.types);
 }
 
 
