@@ -110,6 +110,7 @@ function insertCardTypes(pokemonId, types) {
     img.classList.add("type-icon");
     cardFooter.appendChild(img);
   }
+  setCardTypeClass(pokemonId, types);
 }
 
 function setCardTypeClass(pokemonId, types) {
@@ -354,6 +355,7 @@ function filterPokemon() {
             );
 
             insertCardTypes(searchIndex, pokemon.types);
+            
         }
     }
 }
