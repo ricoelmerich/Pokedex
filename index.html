@@ -11,13 +11,15 @@
 </head>
 <body  onload="init()">
     <header>
+        <img src="icons\Pokédex_logo.png" class="pokedex-img">
+        <section>
         <label >find Pokemon:</label>
 <input type="search" id="search" name="q" onkeyup="filterPokemon()"/>
 
-<button class="search-button">Search</button>
+<button class="search-button">Search</button></section>
     </header>
     <main id="main" class="main">
-        <div id="loading-spinner" class="spinner hidden"> <img src="icons/simple_pokeball.gif" alt="Loading..."> </div>
+        <div id="loading-spinner" class="spinner hidden"> <img src="icons/simple_pokeball.gif" class="spinner-img" alt="Loading..."> </div>
          <div id="overlay" class="overlay display-none"></div>
          <div id="content" class="content"></div>
         <button id="load-more-btn" onclick="loadMorePokemon()">Load more Pokémon</button>
