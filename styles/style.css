@@ -8,6 +8,27 @@ header{
 }
 
 
+
+
+
+
+main::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+   background-image: url("/icons/aloladex_background_by_sn_lolz_dbn3qmh-fullview.jpg");
+     background-position: center;
+    background-size: 100% 100%;
+    z-index: -1;
+
+   
+    filter: grayscale(0.5);
+}
+
+
+
+
+
 .content{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -97,10 +118,11 @@ header{
 
 .spinner {
   display: flex;
-  justify-content: center;
+  
       top: 0;
     right: 0;
     left: 0;
+    bottom: 0;
     position: fixed;
 }
 
