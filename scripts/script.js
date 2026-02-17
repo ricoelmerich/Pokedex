@@ -6,7 +6,7 @@ let loadedCount = 0;
 const loadAmount = 20;
 
 
-let icons = {
+const icons = {
   bug: "icons/bug.svg",
   dark: "icons/dark.svg",
   dragon: "icons/dragon.svg",
@@ -26,6 +26,27 @@ let icons = {
   steel: "icons/steel.svg",
   water: "icons/water.svg",
 };
+
+const allTypes = [ 
+  "bug",
+   "dark",
+   "dragon",
+   "electric",
+    "fairy",
+    "fighting",
+    "fire",
+    "flying",
+    "ghost",
+    "grass",
+    "ground",
+    "ice",
+    "normal",
+     "poison",
+     "psychic",
+     "rock",
+     "steel",
+     "water"
+   ];
 
 function init() {
   loadPokemonlist();
@@ -115,19 +136,25 @@ function insertCardTypes(pokemonId, types) {
 
 function setBackGroundColor(pokemonId, types, isOverlay) {
     let firstType = types[0].type.name;
+    let overlay = document.getElementById("overlay");
+    let card = document.getElementById(`card-${pokemonId}`);
 
     if (isOverlay) {
-        let overlay = document.getElementById("overlay");
-        if (overlay) {
-            overlay.classList.add(firstType);
+        
+        for (let i = 0; i < allTypes.length; i++) {
+            overlay.classList.remove(allTypes[i]);
         }
+        overlay.classList.add(firstType);
     } else {
-        let card = document.getElementById(`card-${pokemonId}`);
         if (card) {
+            for (let i = 0; i < allTypes.length; i++) {
+                card.classList.remove(allTypes[i]);
+            }
             card.classList.add(firstType);
         }
     }
 }
+
 
 
 

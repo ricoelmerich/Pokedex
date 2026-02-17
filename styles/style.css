@@ -12,13 +12,12 @@ header{
 
 
 
-main::before {
-    content: "";
+body::before {
+    content: url("/icons/aloladex_background_by_sn_lolz_dbn3qmh-fullview.jpg");
     position: fixed;
-    inset: 0;
-   background-image: url("/icons/aloladex_background_by_sn_lolz_dbn3qmh-fullview.jpg");
-     background-position: center;
-    background-size: 100% 100%;
+   
+   
+  
     z-index: -1;
 
    
@@ -58,26 +57,33 @@ main::before {
       filter: brightness(1.05); }
 
 .pokemon-img{
-    width: 200px;
+    width: 150px;
+        background-color: #E0E0E0;
 }
+
 
 
 .type-icon {
   width: 32px;
   height: 32px;
   margin: 8px;
+ 
+    border-radius: 50%;
+box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.4);
 }
 
 .overlay {
     position: fixed;
     width: 300px;
-    height: 500px;
+    
     background: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     left: calc(50% - 150px);
+    border-radius: 8px;
+    
 }
 
 .display-none{
@@ -86,18 +92,24 @@ main::before {
 
 .overlay-img{
     width: 300px;
+     background-color: #E0E0E0;
 }
 
 .overlay-footer{
   
     width: 100%;
     
-    background-color: aqua;
     
-    
+        border-radius: 0 0 8px 8px;
+}
+
+.overlay nav:hover {
+     cursor: pointer;
+     font-size: 18px;
 }
 
 .footer-navbar{
+     margin-bottom: 10px;
     display: flex;
     justify-content: center;
 }
@@ -106,9 +118,14 @@ main::before {
     min-height: 50px;
 }
 
+.info-space p{
+     display: flex;
+     justify-content: center;
+}
 .close-overlay{
-    right: 0;
-    position: fixed;
+    right: -20px;
+    top: -20px;
+    position: absolute;
 }
 
 .tab{

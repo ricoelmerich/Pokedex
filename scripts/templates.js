@@ -28,16 +28,16 @@ function cardOverlay(pokemonId, pic, name) {
 
 function overlayStats(statsRespJSON) {
     return `
-    <p>height:${statsRespJSON.height}</p>
-    <p>weight:${statsRespJSON.weight}</p>
+    <p>height:  ${statsRespJSON.height}</p>
+    <p>weight:  ${statsRespJSON.weight}</p>
    `
 }
 
 function overlayCombat(combatStats) {
     return `
-    <p>health: ${combatStats[0].base_stat}</p>
-    <p>attack: ${combatStats[1].base_stat}</p>
-    <p>defense: ${combatStats[2].base_stat}</p>
+    <p>health:  ${combatStats[0].base_stat}</p>
+    <p>attack:  ${combatStats[1].base_stat}</p>
+    <p>defense:  ${combatStats[2].base_stat}</p>
    `
 }
 
