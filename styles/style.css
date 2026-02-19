@@ -1,5 +1,5 @@
 body{
-    background-color: rgba(0, 0, 0, 0.3);
+    margin: 0;
 }
 
 header{
@@ -12,7 +12,11 @@ header{
 
 }
 
-
+footer{
+     display: flex;
+    justify-content: center;
+    padding: 20px;
+}
 
 
 
@@ -171,9 +175,22 @@ label {
   border-radius: 6px;
 }
 
-.search-button{
-    border-radius: 6px;
+button {
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #E53935;
+  border-radius: 6px;
+  box-shadow: 0 5px #999;
 }
+
+button:active {
+  box-shadow: 0 2px #666;
+  transform: translateY(4px);
+}
+
 
 
 .bug{
