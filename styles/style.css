@@ -3,8 +3,13 @@ body{
 }
 
 header{
-     display: flex;
-     justify-content: space-between;
+         background-color: #0000ff4d;
+    display: flex;
+    justify-content: space-between;
+    background-image: url("/icons/95c-pokeball-1594373_640.png");
+    background-size: cover;
+    background-position: center;
+
 }
 
 
