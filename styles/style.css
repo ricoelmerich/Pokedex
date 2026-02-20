@@ -41,6 +41,7 @@ body::before {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+    place-items: center;
 }
 
 .pokedex-img{
@@ -136,6 +137,13 @@ box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.4);
     top: -20px;
     position: absolute;
 }
+
+.close-overlay:hover{
+         cursor: pointer;
+
+}
+
+
 
 .tab{
    padding: 0 10px;
