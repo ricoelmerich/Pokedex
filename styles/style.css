@@ -199,6 +199,17 @@ button:active {
   transform: translateY(4px);
 }
 
+.arrows{
+     display: flex;
+     justify-content: space-between;
+}
+
+.imgArrow{
+       width: 25px;
+  height: 20px;
+  cursor: pointer;
+}
+
 
 
 .bug{

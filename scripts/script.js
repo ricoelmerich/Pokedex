@@ -172,6 +172,16 @@ function addCardOverlay(pokemonId, pic, name) {
   setBackGroundColor(pokemonId, data.types, true);
 }
 
+function nextPokemon(pokemonId) {
+    pokemonId++;
+  
+}
+
+function prevPokemon(pokemonId) {
+    pokemonId--;
+ 
+}
+
 
 function insertOverlayTypes(pokemonId, types) {
   const overlayTypes = document.getElementById(`overlay-types-id-${pokemonId}`);
