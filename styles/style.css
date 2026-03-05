@@ -202,10 +202,11 @@ button:active {
 .arrows{
      display: flex;
      justify-content: space-between;
+         padding:  0 5px 10px 5px;
 }
 
 .imgArrow{
-       width: 25px;
+       width: 35px;
   height: 20px;
   cursor: pointer;
 }

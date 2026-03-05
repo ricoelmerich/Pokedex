@@ -171,16 +171,20 @@ function addCardOverlay(pokemonId, pic, name) {
   insertOverlayTypes(pokemonId, data.types);
   setBackGroundColor(pokemonId, data.types, true);
 }
-
 function nextPokemon(pokemonId) {
     pokemonId++;
-  
+    const data = pokemonCache[pokemonId];
+    addCardOverlay(pokemonId, data.sprites.front_default, data.name);
+    console.log(data);
+    
 }
 
 function prevPokemon(pokemonId) {
     pokemonId--;
- 
+    const data = pokemonCache[pokemonId];
+    addCardOverlay(pokemonId, data.sprites.front_default, data.name);
 }
+
 
 
 function insertOverlayTypes(pokemonId, types) {

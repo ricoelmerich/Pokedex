@@ -22,10 +22,9 @@ function cardOverlay(pokemonId, pic, name) {
     <div class="info-space" id="info-space">
     </div>
     <div class="arrows" >
-                       <img onclick="prevPokemon(${pokemonId})")" id="arrowLeft" src="img/arrow-left.png" class="imgArrow">
-                       <img onclick="nextPokemon(${pokemonId})")" id="arrowRight" src="img/arrow-right.png" class="imgArrow">   
+                       <img onclick="prevPokemon(${pokemonId})" id="arrowLeft" src="icons/arrow-left.png" class="imgArrow">
+                       <img onclick="nextPokemon(${pokemonId})" id="arrowRight" src="icons/arrow-right.png" class="imgArrow">   
                     </div>
-
 
     </section>`
 }
