@@ -2,6 +2,10 @@ body{
     margin: 0;
 }
 
+body.overlay-open {
+  overflow: hidden;
+}
+
 header{
          background-color: #0000ff4d;
     display: flex;
@@ -210,6 +214,8 @@ button:active {
   height: 20px;
   cursor: pointer;
 }
+
+
 
 
 

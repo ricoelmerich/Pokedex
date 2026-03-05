@@ -162,15 +162,19 @@ function setBackGroundColor(pokemonId, types, isOverlay) {
 
 
 function addCardOverlay(pokemonId, pic, name) {
+
+  event.stopPropagation();
   const contentRef = document.getElementById("overlay");
   contentRef.innerHTML = cardOverlay(pokemonId, pic, name);
   contentRef.classList.remove("display-none");
 
   const data = pokemonCache[pokemonId];
-
+  document.body.classList.add("overlay-open");
   insertOverlayTypes(pokemonId, data.types);
   setBackGroundColor(pokemonId, data.types, true);
+  
 }
+
 function nextPokemon(pokemonId) {
     pokemonId++;
     const data = pokemonCache[pokemonId];
@@ -411,3 +415,9 @@ function filterPokemon() {
         }
     }
 }
+
+function removeOverlay(){
+  document.body.classList.remove("overlay-open")
+}
+
+
