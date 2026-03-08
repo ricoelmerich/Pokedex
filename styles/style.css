@@ -6,6 +6,11 @@ body.overlay-open {
   overflow: hidden;
 }
 
+body.overlay-open .card:hover{
+  cursor: auto;
+  pointer-events: none; 
+}
+
 header{
          background-color: #0000ff4d;
     display: flex;
@@ -68,7 +73,14 @@ body::before {
 .card:hover {
       transform: translateY(-6px) scale(1.03); 
       box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25); 
-      filter: brightness(1.05); }
+      filter: brightness(1.05); 
+     }
+
+body.overlay-open .card {
+  pointer-events: none;
+
+}
+
 
 .pokemon-img{
     width: 150px;

@@ -175,6 +175,16 @@ function addCardOverlay(pokemonId, pic, name) {
   
 }
 
+function removeOverlay(event) {
+  let overlay = document.getElementById("overlay");
+  if (!overlay.contains(event.target)) {
+    overlay.classList.add("display-none");
+    document.body.classList.remove(
+      "overlay-open"
+    );
+  }
+}
+
 function nextPokemon(pokemonId) {
     pokemonId++;
     const data = pokemonCache[pokemonId];
@@ -416,8 +426,5 @@ function filterPokemon() {
     }
 }
 
-function removeOverlay(){
-  document.body.classList.remove("overlay-open")
-}
 
 
