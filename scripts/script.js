@@ -401,10 +401,15 @@ function loadMorePokemon() {
 function filterPokemon() {
     let search = document.getElementById("search").value.toLowerCase();
 
-    
-    document.getElementById("content").innerHTML = "";
+    if (search.length > 0 && search.length < 3) {
+        alert("Bitte mindestens 3 Buchstaben eingeben.");
+        return;
+    }
 
-    
+    let content = document.getElementById("content");
+    content.innerHTML = "";
+
+    let foundAny = false; 
     for (let searchIndex = 0; searchIndex < pokemonCache.length; searchIndex++) {
         let pokemon = pokemonCache[searchIndex];
         if (!pokemon) continue;
@@ -412,19 +417,25 @@ function filterPokemon() {
         let name = pokemon.forms[0].name.toLowerCase();
 
         if (name.includes(search)) {
+            foundAny = true;
+
             const pic = pokemon.sprites.front_default;
 
-            document.getElementById("content").innerHTML += pokemonCardTemplate(
+            content.innerHTML += pokemonCardTemplate(
                 name,
                 pic,
                 searchIndex
             );
 
             insertCardTypes(searchIndex, pokemon.types);
-            
         }
     }
+
+    if (!foundAny) {
+        content.innerHTML = `<div class="no-results">Kein Pokémon gefunden.</div>`;
+    }
 }
+
 
 
 

@@ -227,6 +227,16 @@ button:active {
   cursor: pointer;
 }
 
+.no-results {
+    grid-column: 1 / -1; 
+    text-align: center;
+    padding: 20px;
+    font-size: 20px;
+    opacity: 0.8;
+}
+
+
+
 
 
 
