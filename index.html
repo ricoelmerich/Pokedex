@@ -1,29 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="icons/alanyadk-pokemon-1536849_640.png">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="icons/alanyadk-pokemon-1536849_640.png"
+    />
     <script src="scripts/templates.js"></script>
     <script src="scripts/script.js"></script>
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/style.css" />
     <title>Pokedex</title>
-</head>
-<body  onload="init()" onclick="removeOverlay(event)">
+  </head>
+  <body onload="init()" onclick="removeOverlay(event)">
     <header>
-        <img src="icons\Pokédex_logo.png" class="pokedex-img">
-        <section>
-        <div >find Pokemon:</div>
-<input type="search" id="search" name="q" />
+      <img src="icons\Pokédex_logo.png" class="pokedex-img" />
+      <section>
+        <div>find Pokemon:</div>
+        <input type="search" id="search" name="q" />
 
-<button  onclick="filterPokemon()">search</button></section>
+        <button onclick="filterPokemon()">search</button>
+      </section>
     </header>
-    <main id="main" class="main">
-        <div id="loading-spinner" class="spinner hidden"> <img src="icons/simple_pokeball.gif" class="spinner-img" alt="Loading..."> </div>
-         <div id="overlay" class="overlay display-none"></div>
-         <div id="content" class="content"></div>
 
+    <main id="main" class="main">
+      <div id="loading-spinner" class="spinner hidden">
+        <img
+          src="icons/simple_pokeball.gif"
+          class="spinner-img"
+          alt="Loading..."
+        />
+      </div>
+      <div id="overlay" class="overlay display-none"></div>
+      <div id="content" class="content"></div>
     </main>
-    <footer><button id="load-more-btn" onclick="loadMorePokemon()">Load more Pokémon</button></footer>
-</body>
+    
+    <footer>
+      <button id="load-more-btn" onclick="loadMorePokemon()">
+        Load more Pokémon
+      </button>
+    </footer>
+  </body>
 </html>

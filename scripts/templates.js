@@ -6,6 +6,7 @@ function pokemonCardTemplate(name, pic, pokemonId) {
   </div>`;
 }
 
+
 function cardOverlay(pokemonId, pic, name) {
     return `
     <section id="overlay-header">${name}
@@ -29,12 +30,14 @@ function cardOverlay(pokemonId, pic, name) {
     </section>`
 }
 
+
 function overlayStats(statsRespJSON) {
     return `
     <p>height:  ${statsRespJSON.height}</p>
     <p>weight:  ${statsRespJSON.weight}</p>
    `
 }
+
 
 function overlayCombat(combatStats) {
     return `
@@ -43,6 +46,7 @@ function overlayCombat(combatStats) {
     <p>defense:  ${combatStats[2].base_stat}</p>
    `
 }
+
 
 function overlayEvoChain(name,imgSrc) {
     return `
