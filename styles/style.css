@@ -2,6 +2,7 @@ body {
   margin: 0;
   font-family: "Dosis", sans-serif;
   font-weight: 500;
+  max-width: 1440px;
 }
 
 body.overlay-open {
@@ -20,6 +21,7 @@ header {
   background-image: url("/icons/95c-pokeball-1594373_640.png");
   background-size: cover;
   background-position: center;
+  padding: 10px 20px;
 }
 
 footer {
@@ -154,10 +156,9 @@ body.overlay-open .card {
   left: 0;
   bottom: 0;
   position: fixed;
-}
-
-.spinner-img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .hidden {

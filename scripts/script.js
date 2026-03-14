@@ -350,14 +350,11 @@ function filterPokemon() {
   let search = document.getElementById("search").value.toLowerCase();
   let foundAny = false;
   let content = document.getElementById("content");
-
   if (search.length > 0 && search.length < 3) {
     alert("Bitte mindestens 3 Buchstaben eingeben.");
     return;
   }
-
   content.innerHTML = "";
-  
   for (let searchIndex = 0; searchIndex < pokemonCache.length; searchIndex++) {
     let pokemon = pokemonCache[searchIndex];
     if (!pokemon) continue;
@@ -369,7 +366,6 @@ function filterPokemon() {
       insertCardTypes(searchIndex, pokemon.types);
     }
   }
-
   if (!foundAny) {
     content.innerHTML = `<div class="no-results">Kein Pokémon gefunden.</div>`;
   }

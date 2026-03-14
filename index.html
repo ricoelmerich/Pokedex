@@ -12,6 +12,8 @@
     <script src="scripts/script.js"></script>
     <link rel="stylesheet" href="styles/style.css" />
     <link rel="stylesheet" href="styles/fonts.css" />
+    <link rel="stylesheet" href="styles/resp.css" />
+
     <title>Pokedex</title>
   </head>
   <body onload="init()" onclick="removeOverlay(event)">
@@ -26,13 +28,12 @@
     </header>
 
     <main id="main" class="main">
-      <div id="loading-spinner" class="spinner hidden">
-        <img
-          src="icons/simple_pokeball.gif"
-          class="spinner-img"
-          alt="Loading..."
-        />
-      </div>
+      <img
+        id="loading-spinner"
+        src="icons/simple_pokeball.gif"
+        class="spinner hidden"
+        alt="Loading..."
+      />
       <div id="overlay" class="overlay display-none"></div>
       <div id="content" class="content"></div>
     </main>
