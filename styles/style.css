@@ -101,7 +101,7 @@ body.overlay-open .card {
 }
 
 .display-none {
-  display: none;
+  display: none !important;
 }
 
 .overlay-img {
@@ -111,7 +111,6 @@ body.overlay-open .card {
 
 .overlay-footer {
   width: 100%;
-
   border-radius: 0 0 8px 8px;
 }
 
@@ -159,10 +158,6 @@ body.overlay-open .card {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.hidden {
-  display: none;
 }
 
 label {

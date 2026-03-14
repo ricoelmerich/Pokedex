@@ -52,12 +52,12 @@ function init() {
 
 
 function showSpinner() {
-  document.getElementById("loading-spinner").classList.remove("hidden");
+  document.getElementById("loading-spinner").classList.remove("display-none");
 }
 
 
 function hideSpinner() {
-  document.getElementById("loading-spinner").classList.add("hidden");
+  document.getElementById("loading-spinner").classList.add("display-none");
 }
 
 
@@ -185,6 +185,7 @@ function insertOverlayTypes(pokemonId, types) {
 function closeOverlay() {
   let overlay = document.getElementById("overlay");
   overlay.classList.add("display-none");
+  document.body.classList.remove("overlay-open");
 }
 
 
