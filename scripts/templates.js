@@ -6,7 +6,6 @@ function pokemonCardTemplate(name, pic, pokemonId) {
   </div>`;
 }
 
-
 function cardOverlay(pokemonId, pic, name) {
     return `
     <section id="overlay-header">${name}
@@ -23,13 +22,11 @@ function cardOverlay(pokemonId, pic, name) {
     <div class="info-space" id="info-space">
     </div>
     <div class="arrows" >
-                       <img onclick="prevPokemon(${pokemonId})" id="arrowLeft" src="icons/arrow-left.png" class="imgArrow">
-                       <img onclick="nextPokemon(${pokemonId})" id="arrowRight" src="icons/arrow-right.png" class="imgArrow">   
+                       <img onclick="prevPokemon(${pokemonId})" id="arrowLeft" src="assets/imgs/arrow-left.png" class="imgArrow">
+                       <img onclick="nextPokemon(${pokemonId})" id="arrowRight" src="assets/imgs/arrow-right.png" class="imgArrow">   
                     </div>
-
     </section>`
 }
-
 
 function overlayStats(statsRespJSON) {
     return `
@@ -37,7 +34,6 @@ function overlayStats(statsRespJSON) {
     <p>weight:  ${statsRespJSON.weight}</p>
    `
 }
-
 
 function overlayCombat(combatStats) {
     return `
@@ -47,10 +43,8 @@ function overlayCombat(combatStats) {
    `
 }
 
-
 function overlayEvoChain(name,imgSrc) {
     return `
     <img src="${imgSrc}">
-   
    `
 }
