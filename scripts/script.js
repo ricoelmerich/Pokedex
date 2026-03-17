@@ -256,7 +256,6 @@ async function loadEvoChain(pokemonId) {
 async function renderEvoChain(pokemonId) {
   try {
     await loadEvoChain(pokemonId);
-    await renderEvoChainImgs(levels);
   } catch (error) {
     console.log(error);
   }
@@ -291,8 +290,8 @@ function processLevel(queue) {
   const current = [];
   for (let i = 0; i < levelSize; i++) {
     const node = dequeue(queue);
-    const sp = getSpecies(node);
-    if (sp) current.push(sp);
+    const species = getSpecies(node);
+    if (species) current.push(species);
     enqueueSubLevels(queue, node);
   }
   return current;

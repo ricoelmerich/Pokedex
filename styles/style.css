@@ -18,7 +18,7 @@ header {
   background-color: #0000ff4d;
   display: flex;
   justify-content: space-between;
-  background-image: url("/assets/imgs/95c-pokeball-1594373_640.png");
+  background-image: url("../assets/imgs/95c-pokeball-1594373_640.png");
   background-size: cover;
   background-position: center;
   padding: 10px 20px;
@@ -31,7 +31,7 @@ footer {
 }
 
 body::before {
-  content: url("/assets/imgs/aloladex_background_by_sn_lolz_dbn3qmh-fullview.jpg");
+  content: url("../assets/imgs/aloladex_background_by_sn_lolz_dbn3qmh-fullview.jpg");
   position: fixed;
   z-index: -1;
   filter: grayscale(0.5);
