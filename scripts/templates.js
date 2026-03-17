@@ -18,7 +18,7 @@ function cardOverlay(pokemonId, pic, name) {
     <div class="footer-navbar">
     <nav onclick="loadStats(${pokemonId})" id="overlay-tab-stats" class="overlay-tab-stats tab">stats</nav>
     <nav onclick="loadCombatStats(${pokemonId})" id="overlay-tab-combat" class="overlay-tab-combat tab">combat</nav>
-    <nav onclick="loadEvoChain(${pokemonId})" id="overlay-tab-evochain" class="overlay-tab-evochain tab">evo chain</nav>
+    <nav onclick="renderEvoChain(${pokemonId})" id="overlay-tab-evochain" class="overlay-tab-evochain tab">evo chain</nav>
     </div>
     <div class="info-space" id="info-space">
     </div>

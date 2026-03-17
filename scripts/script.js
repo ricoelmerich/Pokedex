@@ -50,16 +50,13 @@ function init() {
   loadPokemonlist();
 }
 
-
 function showSpinner() {
   document.getElementById("loading-spinner").classList.remove("display-none");
 }
 
-
 function hideSpinner() {
   document.getElementById("loading-spinner").classList.add("display-none");
 }
-
 
 async function loadPokemonlist(limit = loadAmount, offset = 0) {
   showSpinner();
@@ -82,7 +79,6 @@ async function loadPokemonlist(limit = loadAmount, offset = 0) {
   hideSpinner();
 }
 
-
 async function loadDataFromUrl(url) {
   const response = await fetch(url);
   const data = await response.json();
@@ -90,11 +86,14 @@ async function loadDataFromUrl(url) {
   pokemonCache[pokemonId] = data;
   const name = data.forms[0].name;
   const pic = data.sprites.front_default;
-  document.getElementById("content").innerHTML += pokemonCardTemplate(name, pic, pokemonId);
+  document.getElementById("content").innerHTML += pokemonCardTemplate(
+    name,
+    pic,
+    pokemonId
+  );
   insertCardTypes(pokemonId, data.types);
   setBackGroundColor(pokemonId, data.types);
 }
-
 
 function insertCardTypes(pokemonId, types) {
   const cardFooter = document.getElementById(`card-footer-${pokemonId}`);
@@ -109,7 +108,6 @@ function insertCardTypes(pokemonId, types) {
   }
   setBackGroundColor(pokemonId, types, false);
 }
-
 
 function setBackGroundColor(pokemonId, types, isOverlay) {
   let firstType = types[0].type.name;
@@ -131,7 +129,6 @@ function setBackGroundColor(pokemonId, types, isOverlay) {
   }
 }
 
-
 function addCardOverlay(pokemonId, pic, name) {
   event.stopPropagation();
   const contentRef = document.getElementById("overlay");
@@ -143,7 +140,6 @@ function addCardOverlay(pokemonId, pic, name) {
   setBackGroundColor(pokemonId, data.types, true);
 }
 
-
 function removeOverlay(event) {
   let overlay = document.getElementById("overlay");
   if (!overlay.contains(event.target)) {
@@ -152,7 +148,6 @@ function removeOverlay(event) {
   }
 }
 
-
 function nextPokemon(pokemonId) {
   pokemonId++;
   const data = pokemonCache[pokemonId];
@@ -160,13 +155,11 @@ function nextPokemon(pokemonId) {
   console.log(data);
 }
 
-
 function prevPokemon(pokemonId) {
   pokemonId--;
   const data = pokemonCache[pokemonId];
   addCardOverlay(pokemonId, data.sprites.front_default, data.name);
 }
-
 
 function insertOverlayTypes(pokemonId, types) {
   const overlayTypes = document.getElementById(`overlay-types-id-${pokemonId}`);
@@ -181,13 +174,11 @@ function insertOverlayTypes(pokemonId, types) {
   }
 }
 
-
 function closeOverlay() {
   let overlay = document.getElementById("overlay");
   overlay.classList.add("display-none");
   document.body.classList.remove("overlay-open");
 }
-
 
 async function loadStats(pokemonId) {
   try {
@@ -208,12 +199,10 @@ async function loadStats(pokemonId) {
   }
 }
 
-
 function renderStatsTab(statsRespJSON) {
   let statsTabRef = document.getElementById("info-space");
   statsTabRef.innerHTML = overlayStats(statsRespJSON);
 }
-
 
 async function loadCombatStats(pokemonId) {
   try {
@@ -235,139 +224,159 @@ async function loadCombatStats(pokemonId) {
   }
 }
 
-
 function renderCombatTab(combatStats) {
   console.log(combatStats);
   let combatTabRef = document.getElementById("info-space");
   combatTabRef.innerHTML = overlayCombat(combatStats);
 }
 
-
 async function loadEvoChain(pokemonId) {
-  try {
-    const speciesResp = await fetch(`${Base_URL}pokemon-species/${pokemonId}`);
-    if (!speciesResp.ok) {
-      console.error("Failed to fetch species", speciesResp.status);
-      return;
-    }
-    const speciesJson = await speciesResp.json();
-    const evoChainUrl = speciesJson.evolution_chain.url;
-    if (!evoChainUrl) {
-      console.error("No evolution_chain found for", pokemonId);
-      return;
-    }
-    if (pokemonCache[pokemonId].chain) {
-      const chain = pokemonCache[pokemonId].chain;
-      const levels = countEvoForms(chain);
-      renderEvoChain(chain);
-    }
-    const evoChainResp = await fetch(evoChainUrl);
-    if (!evoChainResp.ok) {
-      console.error("Failed to fetch evoChain", evoChainResp.status);
-      return;
-    }
-    const evoChainRespJSON = await evoChainResp.json();
-    const chain = evoChainRespJSON.chain;
-    pokemonCache[pokemonId].chain = chain;
-
+  const speciesResp = await fetch(`${Base_URL}pokemon-species/${pokemonId}`);
+  if (!speciesResp.ok) {
+    console.error(
+      "Failed to fetch species in loadEvoChain",
+      speciesResp.status
+    );
+    return;
+  }
+  const speciesJson = await speciesResp.json();
+  const evoChainUrl = speciesJson.evolution_chain.url;
+  if (pokemonCache[pokemonId].chain) {
+    const chain = pokemonCache[pokemonId].chain;
     const levels = countEvoForms(chain);
+    renderEvoChainImgs(chain);
+  }
+  const evoChainResp = await fetch(evoChainUrl);
+  const evoChainRespJSON = await evoChainResp.json();
+  const chain = evoChainRespJSON.chain;
+  pokemonCache[pokemonId].chain = chain;
+  renderEvoChainImgs(countEvoForms(chain));
+}
 
-    renderEvoChain(levels);
-  } catch (err) {
-    console.error("Error in loadEvoChain:", err);
+async function renderEvoChain(pokemonId) {
+  try {
+    await loadEvoChain(pokemonId);
+    await renderEvoChainImgs(levels);
+  } catch (error) {
+    console.log(error);
   }
 }
 
+function dequeue(queue) {
+  return queue.shift();
+}
+
+function getSpecies(node) {
+  if (!node.species) {
+    return null;
+  }
+  return node.species;
+}
+
+function enqueueSubLevels(list, node) {
+  if (!node) {
+    return;
+  }
+  let subLevels = node.evolves_to;
+  if (!subLevels) {
+    subLevels = [];
+  }
+  for (let i = 0; i < subLevels.length; i++) {
+    list.push(subLevels[i]);
+  }
+}
+
+function processLevel(queue) {
+  const levelSize = queue.length;
+  const current = [];
+  for (let i = 0; i < levelSize; i++) {
+    const node = dequeue(queue);
+    const sp = getSpecies(node);
+    if (sp) current.push(sp);
+    enqueueSubLevels(queue, node);
+  }
+  return current;
+}
 
 function countEvoForms(chain) {
   if (!chain) return [];
-  let levels = [];
-  let chainRef = [chain];
-
-  while (chainRef.length > 0) {
-    let levelSize = chainRef.length;
-    let currentForms = [];
-    for (let index = 0; index < levelSize; index++) {
-      let levelArr = chainRef.shift();
-      if (levelArr.species) {
-        currentForms.push(levelArr.species);
-      }
-      let subLevels;
-      if (levelArr.evolves_to) {
-        subLevels = levelArr.evolves_to;
-      } else {
-        subLevels = [];
-      }
-      for (var indexSubLvl = 0; indexSubLvl < subLevels.length; indexSubLvl++) {
-        chainRef.push(subLevels[indexSubLvl]);
-      }
-    } //for
-    if (currentForms.length > 0) {
-      levels.push(currentForms);
-    }
-  } //while
-  console.log(levels);
-
+  const levels = [];
+  const queue = [chain];
+  while (queue.length > 0) {
+    const current = processLevel(queue);
+    if (current.length) levels.push(current);
+  }
   return levels;
 }
 
-
-async function renderEvoChain(levels) {
+async function renderEvoChainImgs(levels) {
   const infoSpace = document.getElementById("info-space");
   infoSpace.innerHTML = "";
 
   for (let levelIndex = 0; levelIndex < levels.length; levelIndex++) {
     const name = levels[levelIndex][0].name;
-
-    try {
       if (!levelCache[name]) {
         const response = await fetch(`${Base_URL}pokemon/${name}`);
         if (!response.ok) {
-          console.error(
-            `Failed to load data for ${name}. HTTP status: ${response.status}`
-          );
+          console.error(`Failed to load data for ${name}. HTTP status: ${response.status}`);
         }
         const responseJSON = await response.json();
         levelCache[name] = responseJSON;
       }
-
       const data = levelCache[name];
       const imgSrc = data.sprites.front_default;
       infoSpace.innerHTML += overlayEvoChain(name, imgSrc);
-    } catch (err) {
-      console.error(`error while processing ${name}:`, err);
-    }
   }
 }
-
 
 function loadMorePokemon() {
   loadedCount += loadAmount;
   loadPokemonlist(loadAmount, loadedCount);
 }
 
+function isSearchTooShort(search) {
+  if (search.length > 0 && search.length < 3) {
+    return true;
+  }
+  return false;
+}
+
+function nameMatches(pokemon, search) {
+  if (!pokemon) {
+    return false;
+  }
+  let name = pokemon.forms[0].name.toLowerCase();
+  if (name.includes(search)) {
+    return true;
+  }
+  return false;
+}
+
+function renderPokemonCard(pokemon, index, contentRef) {
+  let name = pokemon.forms[0].name.toLowerCase();
+  let pic = pokemon.sprites.front_default;
+  contentRef.innerHTML += pokemonCardTemplate(name, pic, index);
+  insertCardTypes(index, pokemon.types);
+}
 
 function filterPokemon() {
   let search = document.getElementById("search").value.toLowerCase();
+  let contentRef = document.getElementById("content");
   let foundAny = false;
-  let content = document.getElementById("content");
-  if (search.length > 0 && search.length < 3) {
+  if (isSearchTooShort(search)) {
     alert("Bitte mindestens 3 Buchstaben eingeben.");
     return;
   }
-  content.innerHTML = "";
-  for (let searchIndex = 0; searchIndex < pokemonCache.length; searchIndex++) {
-    let pokemon = pokemonCache[searchIndex];
-    if (!pokemon) continue;
-    let name = pokemon.forms[0].name.toLowerCase();
-    if (name.includes(search)) {
+  contentRef.innerHTML = "";
+  for (let i = 0; i < pokemonCache.length; i++) {
+    let pokemon = pokemonCache[i];
+    if (nameMatches(pokemon, search)) {
       foundAny = true;
-      const pic = pokemon.sprites.front_default;
-      content.innerHTML += pokemonCardTemplate(name, pic, searchIndex);
-      insertCardTypes(searchIndex, pokemon.types);
+      renderPokemonCard(pokemon, i, content);
     }
   }
   if (!foundAny) {
-    content.innerHTML = `<div class="no-results">Kein Pokémon gefunden.</div>`;
+    content.innerHTML = `<div class="no-results">No Pokémon found.</div>`;
   }
 }
+
