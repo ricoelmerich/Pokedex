@@ -15,7 +15,7 @@ body.overlay-open {
 }
 
 body.overlay-open .card:hover {
-  cursor: auto;
+  cursor: pointer;
   pointer-events: none;
 }
 
@@ -50,6 +50,7 @@ h3{
 .pokedex-img {
   width: 200px;
   height: 50px;
+  object-fit: cover;
 }
 
 .card {

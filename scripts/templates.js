@@ -8,7 +8,7 @@ function pokemonCardTemplate(name, pic, pokemonId) {
 
 function cardOverlay(pokemonId, pic, name) {
     return `
-    <section id="overlay-header">${name}
+    <section id="overlay-header"><h3>${name}</h3>
     <div onclick="closeOverlay()" class="close-overlay">✖</div>
     </section>
     <img src="${pic}" class="overlay-img" >

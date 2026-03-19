@@ -84,7 +84,8 @@ async function loadDataFromUrl(url) {
   const data = await response.json();
   const pokemonId = data.id;
   pokemonCache[pokemonId] = data;
-  const name = data.forms[0].name;
+  let name = data.forms[0].name;
+  name = name.charAt(0).toUpperCase() + name.slice(1);
   const pic = data.sprites.front_default;
   document.getElementById("content").innerHTML += pokemonCardTemplate(
     name,
@@ -152,7 +153,6 @@ function nextPokemon(pokemonId) {
   pokemonId++;
   const data = pokemonCache[pokemonId];
   addCardOverlay(pokemonId, data.sprites.front_default, data.name);
-  console.log(data);
 }
 
 function prevPokemon(pokemonId) {
@@ -256,7 +256,7 @@ async function renderEvoChain(pokemonId) {
   try {
     await loadEvoChain(pokemonId);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
