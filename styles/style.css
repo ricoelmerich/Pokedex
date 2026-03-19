@@ -1,8 +1,13 @@
 body {
-  margin: 0;
+  background-image: url("../assets/imgs/aloladex_background_by_sn_lolz_dbn3qmh-fullview.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   font-family: "Dosis", sans-serif;
   font-weight: 500;
+  margin: 0 auto;
   max-width: 1920px;
+  width: 100%;
 }
 
 body.overlay-open {
@@ -28,13 +33,6 @@ footer {
   display: flex;
   justify-content: center;
   padding: 20px;
-}
-
-body::before {
-  content: url("../assets/imgs/aloladex_background_by_sn_lolz_dbn3qmh-fullview.jpg");
-  position: fixed;
-  z-index: -1;
-  filter: grayscale(0.5);
 }
 
 h3{

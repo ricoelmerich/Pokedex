@@ -225,7 +225,6 @@ async function loadCombatStats(pokemonId) {
 }
 
 function renderCombatTab(combatStats) {
-  console.log(combatStats);
   let combatTabRef = document.getElementById("info-space");
   combatTabRef.innerHTML = overlayCombat(combatStats);
 }
