@@ -3,6 +3,7 @@ let pokemonCache = [];
 let levelCache = [];
 let loadedCount = 0;
 const loadAmount = 20;
+let shownPokemon = loadAmount;
 
 const icons = {
   bug: "assets/icons/bug.svg",
@@ -132,6 +133,8 @@ function setBackGroundColor(pokemonId, types, isOverlay) {
 
 function addCardOverlay(pokemonId, pic, name) {
   event.stopPropagation();
+ 
+
   const contentRef = document.getElementById("overlay");
   contentRef.innerHTML = cardOverlay(pokemonId, pic, name);
   contentRef.classList.remove("display-none");
@@ -139,6 +142,8 @@ function addCardOverlay(pokemonId, pic, name) {
   document.body.classList.add("overlay-open");
   insertOverlayTypes(pokemonId, data.types);
   setBackGroundColor(pokemonId, data.types, true);
+  loadStats(pokemonId);
+  hideArrow(pokemonId)
 }
 
 function removeOverlay(event) {
@@ -159,6 +164,17 @@ function prevPokemon(pokemonId) {
   pokemonId--;
   const data = pokemonCache[pokemonId];
   addCardOverlay(pokemonId, data.sprites.front_default, data.name);
+}
+
+function hideArrow(pokemonId) {
+  let leftArrow = document.getElementById("arrowLeft");
+  let rightArrow = document.getElementById("arrowRight");
+  if (pokemonId <= 1) {
+    leftArrow.classList.add("invisible");
+  }
+   if (pokemonId >= shownPokemon) {
+    rightArrow.classList.add("invisible");
+  }
 }
 
 function insertOverlayTypes(pokemonId, types) {
@@ -329,6 +345,7 @@ async function renderEvoChainImgs(levels) {
 
 function loadMorePokemon() {
   loadedCount += loadAmount;
+  shownPokemon += loadAmount;
   loadPokemonlist(loadAmount, loadedCount);
 }
 

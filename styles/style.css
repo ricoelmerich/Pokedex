@@ -15,7 +15,7 @@ body.overlay-open {
 }
 
 body.overlay-open .card:hover {
-  cursor: pointer;
+  cursor: auto;
   pointer-events: none;
 }
 
@@ -68,6 +68,7 @@ h3{
   transform: translateY(-6px) scale(1.03);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
   filter: brightness(1.05);
+  cursor: pointer;
 }
 
 body.overlay-open .card {
@@ -103,6 +104,10 @@ body.overlay-open .card {
   display: none !important;
 }
 
+.invisible {
+  visibility: hidden;
+}
+
 .overlay-img {
   width: 300px;
   background-color: #e0e0e0;
@@ -115,7 +120,7 @@ body.overlay-open .card {
 
 .overlay nav:hover {
   cursor: pointer;
-  font-size: 18px;
+  transform: scale(1.2);
 }
 
 .footer-navbar {
