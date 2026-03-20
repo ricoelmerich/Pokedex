@@ -8,6 +8,7 @@ body {
   margin: 0 auto;
   max-width: 1920px;
   width: 100%;
+  font-size: 16px;
 }
 
 body.overlay-open {
@@ -38,6 +39,7 @@ footer {
 h3{
   margin: 10px;
   font-weight: 600;
+  font-size: 20px;
 }
 
 .content {

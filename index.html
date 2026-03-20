@@ -21,9 +21,9 @@
       <img src="assets/imgs/Pokédex_logo.png" class="pokedex-img" />
       <section>
         <div>find Pokemon:</div>
-        <input type="search" id="search" oninput="filterPokemon()" name="q" />
+        <input type="search" id="search" name="q" oninput="resetSearchIfEmpty()" />
 
-        <button>search</button>
+        <button onclick="filterPokemon()">search</button>
       </section>
     </header>
 
