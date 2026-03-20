@@ -4,6 +4,7 @@ let levelCache = [];
 let loadedCount = 0;
 const loadAmount = 20;
 let shownPokemon = loadAmount;
+let lastSearch = "";
 
 const icons = {
   bug: "assets/icons/bug.svg",
@@ -46,10 +47,6 @@ const allTypes = [
   "steel",
   "water",
 ];
-
-function init() {
-  loadPokemonlist();
-}
 
 function showSpinner() {
   document.getElementById("loading-spinner").classList.remove("display-none");
@@ -133,8 +130,6 @@ function setBackGroundColor(pokemonId, types, isOverlay) {
 
 function addCardOverlay(pokemonId, pic, name) {
   event.stopPropagation();
- 
-
   const contentRef = document.getElementById("overlay");
   contentRef.innerHTML = cardOverlay(pokemonId, pic, name);
   contentRef.classList.remove("display-none");
@@ -245,27 +240,50 @@ function renderCombatTab(combatStats) {
   combatTabRef.innerHTML = overlayCombat(combatStats);
 }
 
+async function fetchSpecies(pokemonId) {
+  const resp = await fetch(`${Base_URL}pokemon-species/${pokemonId}`);
+  if (!resp.ok) {
+    console.error("Failed to fetch species", resp.status);
+    return null;
+  }
+  return await resp.json();
+}
+
+async function fetchEvoChain(url) {
+  const resp = await fetch(url);
+  if (!resp.ok) {
+    console.error("Failed to fetch evolution chain", resp.status);
+    return null;
+  }
+  return await resp.json();
+}
+
+function getCachedChain(pokemonId) {
+  if (pokemonCache[pokemonId] && pokemonCache[pokemonId].chain) {
+    return pokemonCache[pokemonId].chain;
+  }
+  return null;
+}
+
+function renderChain(chain) {
+  const levels = countEvoForms(chain);
+  renderEvoChainImgs(levels);
+}
+
 async function loadEvoChain(pokemonId) {
-  const speciesResp = await fetch(`${Base_URL}pokemon-species/${pokemonId}`);
-  if (!speciesResp.ok) {
-    console.error(
-      "Failed to fetch species in loadEvoChain",
-      speciesResp.status
-    );
+  const cached = getCachedChain(pokemonId);
+  if (cached) {
+    renderChain(cached)
     return;
   }
-  const speciesJson = await speciesResp.json();
-  const evoChainUrl = speciesJson.evolution_chain.url;
-  if (pokemonCache[pokemonId].chain) {
-    const chain = pokemonCache[pokemonId].chain;
-    const levels = countEvoForms(chain);
-    renderEvoChainImgs(chain);
-  }
-  const evoChainResp = await fetch(evoChainUrl);
-  const evoChainRespJSON = await evoChainResp.json();
-  const chain = evoChainRespJSON.chain;
+  const species = await fetchSpecies(pokemonId);
+  if (!species) return;
+  const evoChainUrl = species.evolution_chain.url;
+  const evoChainJson = await fetchEvoChain(evoChainUrl);
+  if (!evoChainJson) return;
+  const chain = evoChainJson.chain;
   pokemonCache[pokemonId].chain = chain;
-  renderEvoChainImgs(countEvoForms(chain));
+  renderChain(chain);
 }
 
 async function renderEvoChain(pokemonId) {
@@ -343,17 +361,12 @@ async function renderEvoChainImgs(levels) {
   }
 }
 
-function loadMorePokemon() {
+async function loadMorePokemon() {
   loadedCount += loadAmount;
   shownPokemon += loadAmount;
-  loadPokemonlist(loadAmount, loadedCount);
-}
-
-function isSearchTooShort(search) {
-  if (search.length > 0 && search.length < 3) {
-    return true;
-  }
-  return false;
+  await loadPokemonlist(loadAmount, loadedCount);
+  document.getElementById("search").value = "";
+  renderAllPokemon();
 }
 
 function nameMatches(pokemon, search) {
@@ -374,25 +387,48 @@ function renderPokemonCard(pokemon, index, contentRef) {
   insertCardTypes(index, pokemon.types);
 }
 
-function filterPokemon() {
-  let search = document.getElementById("search").value.toLowerCase();
-  let contentRef = document.getElementById("content");
-  let foundAny = false;
-
-  if (isSearchTooShort(search)) {
-    alert("Bitte mindestens 3 Buchstaben eingeben.");
-    return;
-  }
+function renderFilteredPokemon(search, contentRef) {
   contentRef.innerHTML = "";
+  let foundAny = false;
   for (let i = 0; i < pokemonCache.length; i++) {
     let pokemon = pokemonCache[i];
     if (nameMatches(pokemon, search)) {
       foundAny = true;
-      renderPokemonCard(pokemon, i, content);
+      renderPokemonCard(pokemon, i, contentRef);
     }
   }
   if (!foundAny) {
-    content.innerHTML = `<div class="no-results">No Pokémon found.</div>`;
+    contentRef.innerHTML = `<div class="no-results">No Pokémon found.</div>`;
   }
 }
+
+function isSearchActive(search) {
+  return search.length >= 3;
+}
+
+function filterPokemon() {
+  let search = document.getElementById("search").value.toLowerCase();
+  let contentRef = document.getElementById("content");
+  if (search.length === 0) {
+    renderAllPokemon(contentRef);
+    return;
+  }
+  if (!isSearchActive(search)) {
+    return;
+  }
+  renderFilteredPokemon(search, contentRef);
+}
+
+function renderAllPokemon() {
+  let contentRef = document.getElementById("content");
+  contentRef.innerHTML = "";
+  for (let i = 0; i < pokemonCache.length; i++) {
+    let pokemon = pokemonCache[i];
+    if (pokemon) {
+      renderPokemonCard(pokemon, i, contentRef);
+    }
+  }
+}
+
+
 
