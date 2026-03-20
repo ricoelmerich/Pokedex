@@ -5,7 +5,7 @@ let loadedCount = 0;
 const loadAmount = 20;
 let shownPokemon = loadAmount;
 let lastSearch = "";
-let filteredList = [];
+filteredList = null;
 
 const icons = {
   bug: "assets/icons/bug.svg",
@@ -150,29 +150,33 @@ function removeOverlay(event) {
 function nextPokemon(pokemonId) {
   pokemonId++;
   const data = pokemonCache[pokemonId];
-  addCardOverlay(pokemonId, data.sprites.front_default, data.name);
+  addCardOverlay(pokemonId, data.sprites.front_default, data.forms[0].name);
 }
 
 function prevPokemon(pokemonId) {
   pokemonId--;
   const data = pokemonCache[pokemonId];
-  addCardOverlay(pokemonId, data.sprites.front_default, data.name);
+  addCardOverlay(pokemonId, data.sprites.front_default, data.forms[0].name);
 }
 
 function hideArrow(pokemonId) {
-  let leftArrow = document.getElementById("arrowLeft");
-  let rightArrow = document.getElementById("arrowRight");
-   if (!filteredList) {
-    if (pokemonId <= 1) leftArrow.style.visibility = "hidden";
-    if (pokemonId >= loadedCount) rightArrow.style.visibility = "hidden";
+  const leftArrow = document.getElementById("arrowLeft");
+  const rightArrow = document.getElementById("arrowRight");
+  if (!filteredList || filteredList.length === 0) {
+    if (pokemonId <= 1) {
+      leftArrow.classList.add("invisible");
+    }
+    if (pokemonId >= shownPokemon) {
+      rightArrow.classList.add("invisible");
+    }
     return;
   }
-  let idx = filteredList.indexOf(pokemonId);
+  const idx = filteredList.indexOf(pokemonId);
   if (idx === 0) {
-    leftArrow.style.visibility = "hidden";
+    leftArrow.classList.add("invisible");
   }
   if (idx === filteredList.length - 1) {
-    rightArrow.style.visibility = "hidden";
+    rightArrow.classList.add("invisible");
   }
 }
 
@@ -370,8 +374,9 @@ async function renderEvoChainImgs(levels) {
   loadedCount += loadAmount;
   shownPokemon += loadAmount;
   contentRef.innerHTML = "";
-   loadPokemonlist(loadAmount, loadedCount);
+  loadPokemonlist(loadAmount, loadedCount);
   document.getElementById("search").value = "";
+  filteredList = null;
   renderAllPokemon();
 }
 
@@ -450,6 +455,7 @@ function renderAllPokemon() {
 function resetSearchIfEmpty() {
   let search = document.getElementById("search").value.toLowerCase();
   if (search.length === 0) {
+    filteredList = null;
     renderAllPokemon();
   }
 }

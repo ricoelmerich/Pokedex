@@ -30,6 +30,10 @@ header {
   padding: 10px 20px;
 }
 
+header section div{
+  margin-left: 10px;
+}
+
 footer {
   display: flex;
   justify-content: center;
